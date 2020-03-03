@@ -1,6 +1,7 @@
 class Product{
-  constructor(name,ean,type,weight,color,active)
+  constructor(id,name,ean,type,weight,color,active)
   {
+    this.id = id;
     this.name = name;
     this.ean = ean;
     this.type = type;
