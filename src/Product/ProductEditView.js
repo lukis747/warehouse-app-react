@@ -87,7 +87,7 @@ export default class ProductEditView extends Component {
     {
       console.log(this.state);
       this.setState({
-      error: 'Please fill in all fields'
+      error: 'Please fill in all fields and provide valid data'
     })
     }else{
       this.props.onEdit(this.state);
