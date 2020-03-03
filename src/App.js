@@ -7,10 +7,9 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useRouteMatch,
-  useParams
+  Link
 } from "react-router-dom";
+
 import ProductView from './Product/ProductView';
 import ProductEditView from './Product/ProductEditView';
 import ProductCreateView from './Product/ProductCreateView';
@@ -22,7 +21,7 @@ class App extends React.Component {
     if(localStorage.getItem('state') !== null){
       // Grab data from local storage
       let storage = JSON.parse(localStorage.getItem('state'));
-      let products = storage.products.map((product) => new Product(product.id,product.name,product.ean,product.type,product.weight,product.color,product.active));
+      let products = storage.products.map((product) => new Product(product.id,product.name,product.ean,product.type,product.weight,product.color,product.active,product.price,product.quantity));
 
       this.state = {
         products
@@ -31,8 +30,9 @@ class App extends React.Component {
       // Initial data if you have not set anything yet
       this.state = {
         products : [
-          new Product(0,'Banana',94009456,'Groceries',0.100,'Yellow',true),
-          new Product(1,'Orange',94009123,'Groceries',0.200,'Orange',true),
+          new Product(0,'Banana',94009456,'Groceries',0.100,'Yellow',true,10,5),
+          new Product(1,'Stawberry',94009145,'Groceries',0.300,'Red',true,20,0),
+          new Product(2,'Orange',94009123,'Groceries',0.200,'Orange',false,20,1),          
         ]
       };
       this.storeStates(this.state);
@@ -54,7 +54,7 @@ class App extends React.Component {
     });
   };
 
-    // On checkbox status change mutates the value in state and persists to the local storage
+  // Product edit handler
   productEditHandler = (data) => {
     this.setState(previousState => {
       let products = [...previousState.products];
@@ -66,33 +66,34 @@ class App extends React.Component {
       product.color = data.color;
       product.weight = data.weight;
       product.active = data.active;
+      product.price = data.price;
+      product.quantity = data.quantity;
 
       products[indexOfProduct] = product;
-      console.log(product);
       this.storeStates(this.state);
       return { products };
     });
   };
 
-      // On checkbox status change mutates the value in state and persists to the local storage
-      productCreateHandler = (data) => {
-        this.setState(previousState => {
-          let products = [...previousState.products];
-          var maxIndex = products.reduce(function(a, b) {
-            return Math.max(a.id, b.id);
-          });
+  // Product create handler
+  productCreateHandler = (data) => {
+    this.setState(previousState => {
+      let products = [...previousState.products];
+      var maxIndex = products.reduce(function(a, b) {
+        return Math.max(a.id, b.id);
+      });
 
-          let product = new Product(maxIndex+1,data.name,data.ean,data.type,data.weight,data.color,data.active);
-             
-          products.push(product);
-          this.storeStates(this.state);
-          return { products };
-        });
-      };
+      let product = new Product(maxIndex+1,data.name,data.ean,data.type,data.weight,data.color,data.active,data.price,data.quantity);
+          
+      products.push(product);
+      this.storeStates(this.state);
+      return { products };
+    });
+  };
 
 
 
-  // Removes pfroduct from the local storage
+  // Removes product from the local storage
   productDeleteHandler = id => {
     let products =  this.state.products.filter(x => x.id !== id);
     this.setState({products});
@@ -100,9 +101,9 @@ class App extends React.Component {
   };
 
   // Persist data to local storage
-  storeStates(state)
+  storeStates(data)
   {
-    localStorage.setItem('state',JSON.stringify(state));
+    localStorage.setItem('state',JSON.stringify(data));
   }
   
 
@@ -111,32 +112,32 @@ class App extends React.Component {
     return (
     <Router>     
     <div className="App container">
-    <Header />
-    <Switch>
-          <Route path="/products/create" render={(props) => 
-            <ProductCreateView onCreate={this.productCreateHandler} {...props}/>
-          }></Route>
+      <Header />
+      <Switch>
+        <Route path="/products/create" render={(props) => 
+          <ProductCreateView onCreate={this.productCreateHandler} {...props}/>
+        }></Route>
 
-          <Route path="/products/:id/edit" render={(props) => 
-            <ProductEditView onEdit={this.productEditHandler} products={this.state.products} {...props}/>
-          }></Route>
+        <Route path="/products/:id/edit" render={(props) => 
+          <ProductEditView onEdit={this.productEditHandler} products={this.state.products} {...props}/>
+        }></Route>
 
-          <Route path="/products/:id" render={(props) => 
-            <ProductView products={this.state.products} {...props}/>
-          }></Route>    
-          
-          <Route path="/">
-            <h4 className="mb-2 mt-2">Products list</h4>
-            <Link to="/products/create">
-              <button className="btn btn-success btn-sm m-2">Create new product</button>
-            </Link>
-            <ProductsTable 
-              products={this.state.products} 
-              onActivityChange={this.productActivityHandler} 
-              onDelete={this.productDeleteHandler}
-            />
-          </Route>
-        </Switch>
+        <Route path="/products/:id" render={(props) => 
+          <ProductView products={this.state.products} {...props}/>
+        }></Route>    
+        
+        <Route path="/">
+          <h4 className="mb-2 mt-2">Products list</h4>
+          <Link to="/products/create">
+            <button className="btn btn-success btn-sm m-2">Create new product</button>
+          </Link>
+          <ProductsTable 
+            products={this.state.products} 
+            onActivityChange={this.productActivityHandler} 
+            onDelete={this.productDeleteHandler}
+          />
+        </Route>
+      </Switch>
     </div>
     </Router>
   );

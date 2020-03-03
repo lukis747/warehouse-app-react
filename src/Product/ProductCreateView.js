@@ -13,7 +13,9 @@ export default class ProductCreateView extends Component {
       color: '',
       type: '',
       active: true,
-      error:''
+      error:'',
+      price: 0,
+      quantity:0
     };
   }
 
@@ -25,6 +27,16 @@ export default class ProductCreateView extends Component {
   onEanChange = (e) => {
     this.setState({
       ean: parseInt(e.target.value)
+    });
+  }
+  OnPriceChange = (e) => {
+    this.setState({
+      price: parseInt(e.target.value)
+    });
+  }
+  onQuantityChange = (e) => {
+    this.setState({
+      quantity: parseInt(e.target.value)
     });
   }
   onWeightChange = (e) => {
@@ -57,7 +69,13 @@ export default class ProductCreateView extends Component {
         !this.state.ean ||
         !this.state.weight ||
         this.state.color == '' ||
-        this.state.type == '')
+        this.state.type == '' ||
+        !this.state.price ||
+        !this.state.quantity ||
+        this.state.ean < 0 ||
+        this.state.weight < 0 ||
+        this.state.price < 0 ||
+        this.state.quantity < 0)
     {
       console.log(this.state);
       this.setState({
@@ -110,6 +128,18 @@ export default class ProductCreateView extends Component {
               <td>Color</td>
               <td>
                 <input type="text" value={this.state.color} onChange={this.OnColorChange} className="form-control"></input>
+              </td>
+            </tr>
+            <tr>
+              <td>Price</td>
+              <td>
+                <input type="number" value={this.state.price} onChange={this.OnPriceChange} className="form-control"></input>
+              </td>
+            </tr>
+            <tr>
+              <td>Quantity</td>
+              <td>
+                <input type="number" value={this.state.quantity} onChange={this.onQuantityChange} className="form-control"></input>
               </td>
             </tr>
             <tr>

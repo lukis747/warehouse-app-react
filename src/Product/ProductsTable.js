@@ -25,6 +25,8 @@ export default class ProductsTable extends React.Component {
             <th scope="col">EAN</th>
             <th scope="col">Weight</th>
             <th scope="col">Color</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
             <th scope="col">Active</th>
             <th scope="col"></th>
           </tr>
@@ -32,11 +34,13 @@ export default class ProductsTable extends React.Component {
         <tbody>
           {this.state.products.map((product) => {
             return (
-              <tr className={!product.active ? 'table-dark' : ''}>
+              <tr className={!product.active ? 'table-dark' : product.quantity === 0 ? 'table-danger' : ''}>
                 <td>{product.name}</td>
                 <td>{product.ean}</td>
                 <td>{product.weight}</td>
                 <td>{product.color}</td>
+                <td>{product.price}</td>
+                <td>{product.quantity}</td>
                 <td><input type="checkbox" checked={product.active} onChange={() => this.props.onActivityChange(product.id)}></input></td>
                 <td>
                   <Link to={'/products/'+product.id}>

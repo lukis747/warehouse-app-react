@@ -1,5 +1,5 @@
 class Product{
-  constructor(id,name,ean,type,weight,color,active)
+  constructor(id,name,ean,type,weight,color,active,price,quantity)
   {
     this.id = id;
     this.name = name;
@@ -8,6 +8,8 @@ class Product{
     this.weight = weight;
     this.color = color;
     this.active = active;
+    this.price = price;
+    this.quantity = quantity;
   }
 
   setActivity(state) {
