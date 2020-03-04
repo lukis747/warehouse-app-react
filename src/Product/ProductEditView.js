@@ -100,7 +100,7 @@ export default class ProductEditView extends Component {
     <div>
       <form >
         <h4 className="mb-4 mt-4">Edit Product</h4>
-        <table className="table table-hover w-50">
+        <table className="table table-hover w-75">
         <thead>
           <tr>
             <td>Property</td>

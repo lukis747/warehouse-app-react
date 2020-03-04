@@ -17,7 +17,7 @@ export default class ProductsTable extends React.Component {
   }
   render(){
     return (
-      <div>
+      <div className="table-responsive">
         <table className="table table-hover">
         <thead>
           <tr>

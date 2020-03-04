@@ -9,13 +9,13 @@ export default class ProductCreateView extends Component {
     this.state = {
       name: '',
       ean: null,
-      weight: 0,
+      weight: 1,
       color: '',
       type: '',
       active: true,
       error:'',
-      price: 0,
-      quantity:0
+      price: 1,
+      quantity:1
     };
   }
 
@@ -92,7 +92,7 @@ export default class ProductCreateView extends Component {
       <div>
         <form>
           <h4 className="mb-4 mt-4">Create a new product</h4>
-          <table className="table table-hover w-50">
+          <table className="table table-hover w-75">
           <thead>
             <tr>
               <td>Property</td>
