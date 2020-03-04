@@ -71,7 +71,6 @@ export default class ProductCreateView extends Component {
         this.state.color == '' ||
         this.state.type == '' ||
         !this.state.price ||
-        !this.state.quantity ||
         this.state.ean < 0 ||
         this.state.weight < 0 ||
         this.state.price < 0 ||
