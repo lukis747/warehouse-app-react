@@ -67,10 +67,11 @@ class App extends React.Component {
       product.weight = data.weight;
       product.active = data.active;
       product.price = data.price;
+      product.type = data.type;
       product.quantity = data.quantity;
 
       products[indexOfProduct] = product;
-      this.storeStates(this.state);
+      this.storeStates({products});
       return { products };
     });
   };
@@ -79,19 +80,19 @@ class App extends React.Component {
   productCreateHandler = (data) => {
     this.setState(previousState => {
       let products = [...previousState.products];
-      var maxIndex = products.reduce(function(a, b) {
-        return Math.max(a.id, b.id);
+      let maxIndex = 0;
+
+      products.map(function(obj){     
+        if (obj.id > maxIndex) maxIndex = obj.id;    
       });
 
       let product = new Product(maxIndex+1,data.name,data.ean,data.type,data.weight,data.color,data.active,data.price,data.quantity);
           
       products.push(product);
-      this.storeStates(this.state);
+      this.storeStates({products});
       return { products };
     });
   };
-
-
 
   // Removes product from the local storage
   productDeleteHandler = id => {
