@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles/bootstrap.min.css';
+import './styles/styles.css';
 import Product from './Product/Product';
 import ProductsTable from './Product/ProductsTable';
 import Header from './Header/Header';
@@ -21,7 +22,7 @@ class App extends React.Component {
     if(localStorage.getItem('state') !== null){
       // Grab data from local storage
       let storage = JSON.parse(localStorage.getItem('state'));
-      let products = storage.products.map((product) => new Product(product.id,product.name,product.ean,product.type,product.weight,product.color,product.active,product.price,product.quantity));
+      let products = storage.products.map((product) => new Product(product.id,product.name,product.ean,product.type,product.weight,product.color,product.active,product.price,product.quantity,product.priceHistory,product.quantityHistory));
 
       this.state = {
         products
@@ -61,6 +62,15 @@ class App extends React.Component {
       let indexOfProduct = products.findIndex(product => product.id === data.id);
 
       let product = products[indexOfProduct];
+
+      if (product.price !== data.price) {
+        product.addPriceHistoryEvent(data.price);
+      }
+
+      if (product.quantity !== data.quantity) {
+        product.addQuantityHistoryEvent(data.quantity);
+      }
+
       product.name = data.name;
       product.ean = data.ean;
       product.color = data.color;

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import Tabs from '../Tabs/Tabs';
+import HistoryEvents from '../HistoryEvents';
 
 export default class ProductView extends Component {
 
@@ -10,9 +12,12 @@ export default class ProductView extends Component {
   render() {
     let product = this.getProduct(this.props.match.params.id,this.props.products);
     return (
-      <div>
-        <h4 className="mb-4 mt-4">Edit Product</h4>
-        <table className="table table-hover w-50">
+    <div>
+    <br/>
+     <Tabs>
+      <div label="Product details">
+      <h4 className="mb-4 mt-4">Product details</h4>
+      <table className="table table-hover">
         <thead>
           <tr>
             <td>Property</td>
@@ -44,13 +49,32 @@ export default class ProductView extends Component {
             <td>Active</td>
             <td>{product.active ? 'Yes' : 'No'}</td>
           </tr>
+          <tr>
+            <td>Price</td>
+            <td>{product.price}</td>
+          </tr>
+          <tr>
+            <td>Quantity</td>
+            <td>{product.quantity}</td>
+          </tr>
         </tbody>
         </table>
-        
-        <br/>
-        <Link to="/">Go back</Link>
-        <p></p>
       </div>
+      <div label="Price history">
+        <HistoryEvents events={product.priceHistory} max="5"/>
+      </div>
+      <div label="Quantity history">
+        <HistoryEvents events={product.quantityHistory} max="5"/>
+      </div>
+    </Tabs>
+
+
+        
+  
+      <br/>
+      <Link to="/">Go back</Link>
+      <p></p>
+    </div>
     )
   }
 }
