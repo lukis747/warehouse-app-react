@@ -25,7 +25,7 @@ export default class HistoryEvents extends Component {
           </tr>
           </thead>
           <tbody>
-            {this.events.map((event) => <tr><td>{event.value}</td><td>{new Date(event.date).toString()}</td></tr>)}
+            {this.events.map((event) => <tr key={event.id}><td>{event.value}</td><td>{new Date(event.date).toString()}</td></tr>)}
           </tbody>
         </table>
       </div>

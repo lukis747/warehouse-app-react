@@ -29,6 +29,7 @@ class Product{
 
   addPriceHistoryEvent(price){
     this.priceHistory.push({
+      id:this.priceHistory.length,
       value:price,
       date: new Date()
     });
@@ -36,6 +37,7 @@ class Product{
 
   addQuantityHistoryEvent(quantity){
     this.quantityHistory.push({
+      id:this.quantityHistory.length,
       value:quantity,
       date: new Date()
     });

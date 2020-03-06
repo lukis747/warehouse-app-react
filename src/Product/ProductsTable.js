@@ -34,7 +34,7 @@ export default class ProductsTable extends React.Component {
         <tbody>
           {this.state.products.map((product) => {
             return (
-              <tr className={!product.active ? 'table-dark' : product.quantity === 0 ? 'table-danger' : ''}>
+              <tr className={!product.active ? 'table-dark' : product.quantity === 0 ? 'table-danger' : ''} key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.ean}</td>
                 <td>{product.weight}</td>
